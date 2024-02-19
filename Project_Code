@@ -1,0 +1,30 @@
+int trigPin = 11;
+int echoPin = 12;
+int motor1Pin = 10;
+int motor2Pin = 9;
+void setup () {
+  Serial.begin(9600);
+  pinMode(trigPin, OUTPUT); // Trig
+  pinMode(echoPin, INPUT);  // Echo
+  pinMode(motor1Pin, OUTPUT); //MOTOR1
+  pinMode(motor2Pin, OUTPUT); //MOTOR2
+}
+void loop () {
+  digitalWrite(trigPin, LOW);  // очистили сигнал, чтобы не было ошибок
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH); // включили сонар (отправили ультразвуковой сигнал)
+  delayMicroseconds(10); 
+  digitalWrite(trigPin, LOW);  // выключили сонар
+  int duration = pulseIn(echoPin, HIGH); // подсчет секунд до прихода отраженного сигнала
+  float cm = duration / 58; // перевод значения расстояния в сантиметры
+  if (cm > 50) 
+  {
+    analogWrite(motor1Pin, 50);
+    analogWrite(motor2Pin, 50);
+  }
+  else 
+  {
+    analogWrite(motor1Pin, 0);
+    analogWrite(motor2Pin, 0);
+  }  
+}
